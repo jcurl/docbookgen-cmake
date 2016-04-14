@@ -39,7 +39,7 @@ function(DOCBOOK45_FIND_SAXON)
 endfunction(DOCBOOK45_FIND_SAXON)
 
 function(DOCBOOK45_FIND_DOCBOOKXSL)
-  docbook45_find_tool(docbook-xsl DOCBOOK45_XSL_DIR "docbook-xsl-1.78.1")
+  docbook45_find_tool(docbook-xsl DOCBOOK45_XSL_DIR "docbook-xsl-1.79.1")
   set(DOCBOOK45_XSL_DIR ${DOCBOOK45_XSL_DIR} PARENT_SCOPE)
   set(DOCBOOK45_XSL_DIR_FOUND ${DOCBOOK45_XSL_DIR_FOUND} PARENT_SCOPE)
 endfunction(DOCBOOK45_FIND_DOCBOOKXSL)

@@ -78,11 +78,11 @@ is not downloaded automatically for you, you need to obtain this and extract you
   - There should be the DTD files and the README file
   - Download from:
     - http://www.oasis-open.org/docbook/xml/4.5/docbook-xml-4.5.zip
-* tools/docbook-xsl-1.78.1
+* tools/docbook-xsl-1.79.1
   - There should be the installation instructions, and README file. There is
     no installation required, just unzip the file.
   - Download from:
-    - http://sourceforge.net/projects/docbook/files/docbook-xsl/1.78.1/docbook-xsl-1.78.1.zip/download
+    - http://sourceforge.net/projects/docbook/files/docbook-xsl/1.79.1/docbook-xsl-1.79.1.zip/download
 * tools/saxon655
   - There should be the saxon XSLT 1.0 interpreter, "saxon.jar"
   - Download from:
