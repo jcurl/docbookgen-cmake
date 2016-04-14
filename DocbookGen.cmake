@@ -48,8 +48,6 @@ set(DOCBOOK45_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR})
 # * DOCBOOK45_XSLTHL_DIR: XSLT Highlighting (xslthl-2.1.3)
 # * DOCBOOK45_CATALOG_DIR: Catalog generated output
 function(ADD_DOCBOOK45_TARGET)
-  set(DOCBOOK45_BIN_DIR "${DOCBOOK45_SOURCE_DIR}/docbook45" CACHE STRING "Base directory to find docbook 4.5 tooling")
-
   # Parse the input parameters and set up the lists required
   set(argmode "")
   set(format "")
@@ -140,23 +138,7 @@ function(ADD_DOCBOOK45_TARGET)
     endif()
   endif()
 
-  docbook45_find_bin_dir()
-  docbook45_find_saxon()
-  docbook45_find_docbookxsl()
-  docbook45_find_xslthl()
-  docbook45_find_xerces()
-  docbook45_find_resolver()
-  docbook45_find_docbook()
-  docbook45_find_catalog_source()
-
-  if (NOT DOCBOOK45_BIN_DIR_FOUND OR
-      NOT DOCBOOK45_SAXON_DIR_FOUND OR
-      NOT DOCBOOK45_XSL_DIR_FOUND OR
-      NOT DOCBOOK45_XSLTHL_DIR_FOUND OR
-      NOT DOCBOOK45_XERCES_DIR_FOUND OR
-      NOT DOCBOOK45_RESOLVER_DIR_FOUND OR
-      NOT DOCBOOK45_DOCBOOK_DIR_FOUND OR
-      NOT DOCBOOK45_CATALOG_SOURCE_DIR_FOUND)
+  if(NOT DOCBOOK45_FOUND)
     message(FATAL_ERROR "DOCBOOK45: Didn't find all docbook 4.5 tools required")
   endif()
 
@@ -248,72 +230,7 @@ macro(MAKE_WINDOWS_PATH pathname)
   set(${pathname} \"${${pathname}}\")
 endmacro(MAKE_WINDOWS_PATH)
 
-function(DOCBOOK45_FIND_BIN_DIR)
-  if(IS_DIRECTORY "${DOCBOOK45_BIN_DIR}")
-    set(DOCBOOK45_BIN_DIR "${DOCBOOK45_BIN_DIR}" PARENT_SCOPE)
-    set(DOCBOOK45_BIN_DIR_FOUND 1 PARENT_SCOPE)
-  else()
-    set(DOCBOOK45_BIN_DIR_FOUND 0 PARENT_SCOPE)
-  endif()
-endfunction(DOCBOOK45_FIND_BIN_DIR)
 
-function(DOCBOOK45_FIND_TOOL tool toolvar tooldir)
-  if (IS_DIRECTORY "${DOCBOOK45_BIN_DIR}/${tooldir}")
-    message(STATUS "DOCBOOK45: '${tool}' at '${DOCBOOK45_BIN_DIR}/${tooldir}'")
-    set(${toolvar} ${DOCBOOK45_BIN_DIR}/${tooldir} PARENT_SCOPE)
-    set(${toolvar}_FOUND 1 PARENT_SCOPE)
-  else()
-    message(STATUS "DOCBOOK45: DocBook Directory not found at '${DOCBOOK45_BIN_DIR}/${tooldir}'")
-    set(${toolvar}_FOUND 0 PARENT_SCOPE)
-  endif()
-endfunction(DOCBOOK45_FIND_TOOL)
-
-function(DOCBOOK45_FIND_SAXON)
-  docbook45_find_tool(saxon DOCBOOK45_SAXON_DIR "saxon655")
-  set(DOCBOOK45_SAXON_DIR ${DOCBOOK45_SAXON_DIR} PARENT_SCOPE)
-  set(DOCBOOK45_SAXON_DIR_FOUND ${DOCBOOK45_SAXON_DIR_FOUND} PARENT_SCOPE)
-endfunction(DOCBOOK45_FIND_SAXON)
-
-function(DOCBOOK45_FIND_DOCBOOKXSL)
-  docbook45_find_tool(docbook-xsl DOCBOOK45_XSL_DIR "docbook-xsl-1.78.1")
-  set(DOCBOOK45_XSL_DIR ${DOCBOOK45_XSL_DIR} PARENT_SCOPE)
-  set(DOCBOOK45_XSL_DIR_FOUND ${DOCBOOK45_XSL_DIR_FOUND} PARENT_SCOPE)
-endfunction(DOCBOOK45_FIND_DOCBOOKXSL)
-
-function(DOCBOOK45_FIND_XSLTHL)
-  docbook45_find_tool(xslthl DOCBOOK45_XSLTHL_DIR "xslthl-2.1.3")
-  set(DOCBOOK45_XSLTHL_DIR ${DOCBOOK45_XSLTHL_DIR} PARENT_SCOPE)
-  set(DOCBOOK45_XSLTHL_DIR_FOUND ${DOCBOOK45_XSLTHL_DIR_FOUND} PARENT_SCOPE)
-endfunction(DOCBOOK45_FIND_XSLTHL)
-
-function(DOCBOOK45_FIND_XERCES)
-  docbook45_find_tool(xerces DOCBOOK45_XERCES_DIR "xerces-2_11_0")
-  set(DOCBOOK45_XERCES_DIR ${DOCBOOK45_XERCES_DIR} PARENT_SCOPE)
-  set(DOCBOOK45_XERCES_DIR_FOUND ${DOCBOOK45_XERCES_DIR_FOUND} PARENT_SCOPE)
-endfunction(DOCBOOK45_FIND_XERCES)
-
-function(DOCBOOK45_FIND_RESOLVER)
-  docbook45_find_tool(xml-commons-resolver DOCBOOK45_RESOLVER_DIR "xml-commons-resolver-1.2")
-  set(DOCBOOK45_RESOLVER_DIR ${DOCBOOK45_RESOLVER_DIR} PARENT_SCOPE)
-  set(DOCBOOK45_RESOLVER_DIR_FOUND ${DOCBOOK45_RESOLVER_DIR_FOUND} PARENT_SCOPE)
-endfunction(DOCBOOK45_FIND_RESOLVER)
-
-function(DOCBOOK45_FIND_DOCBOOK)
-  docbook45_find_tool(docbook-xml-4.5 DOCBOOK45_DOCBOOK_DIR "docbook-xml-4.5")
-  set(DOCBOOK45_DOCBOOK_DIR ${DOCBOOK45_DOCBOOK_DIR} PARENT_SCOPE)
-  set(DOCBOOK45_DOCBOOK_DIR_FOUND ${DOCBOOK45_DOCBOOK_DIR_FOUND} PARENT_SCOPE)
-endfunction(DOCBOOK45_FIND_DOCBOOK)
-
-function(DOCBOOK45_FIND_CATALOG_SOURCE)
-  if (IS_DIRECTORY "${DOCBOOK45_SOURCE_DIR}/docbook45/catalog")
-    message(STATUS "DOCBOOK45: 'catalog' at '${DOCBOOK45_SOURCE_DIR}/docbook45/catalog'")
-    set(DOCBOOK45_CATALOG_SOURCE_DIR "${DOCBOOK45_SOURCE_DIR}/docbook45/catalog" PARENT_SCOPE)
-    set(DOCBOOK45_CATALOG_SOURCE_DIR_FOUND 1 PARENT_SCOPE)
-  else()
-    message(STATUS "DOCBOOK45: DocBook catalogs not found at '${DOCBOOK45_SOURCE_DIR}/docbook45/catalog'")
-    set(DOCBOOK45_CATALOG_SOURCE_DIR_FOUND 0 PARENT_SCOPE)
-  endif()
-endfunction(DOCBOOK45_FIND_CATALOG_SOURCE)
 
 function(DOCBOOK45_FIND_IMAGES outdir imgdir imgtargets)
   if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${imgdir}")
